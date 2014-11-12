@@ -1,0 +1,18 @@
+<subsystem xmlns="urn:org.rhq.msg:broker:1.0"
+           enabled="true"
+           configuration-file="foo/bar.xml">
+
+    <org.rhq.msg.broker.name>test-name</org.rhq.msg.broker.name>
+    <org.rhq.msg.broker.persistent>false</org.rhq.msg.broker.persistent>
+    <org.rhq.msg.broker.use-jmx>false</org.rhq.msg.broker.use-jmx>
+
+    <connector socket-binding="test-socket-binding"
+               org.rhq.msg.broker.connector.name="test-connector-name"
+               org.rhq.msg.broker.connector.protocol="test-connector-protocol" />
+
+    <custom-configuration>
+        <property name="custom-prop" value="custom-prop-val"/>
+        <property name="custom-prop2" value="custom-prop-val2"/>
+    </custom-configuration>
+
+</subsystem>

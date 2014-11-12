@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<subsystem xmlns="urn:org.rhq.msg:broker:1.0"
+           enabled="true"
+           configuration-file="default-broker.xml">
+
+    <org.rhq.msg.broker.name>org.rhq.msg.broker</org.rhq.msg.broker.name>
+    <org.rhq.msg.broker.persistent>false</org.rhq.msg.broker.persistent>
+    <org.rhq.msg.broker.use-jmx>false</org.rhq.msg.broker.use-jmx>
+
+    <connector socket-binding="org.rhq.msg.broker"
+               org.rhq.msg.broker.connector.name="openwire"
+               org.rhq.msg.broker.connector.protocol="tcp" />
+
+    <custom-configuration>
+        <property name="custom-prop" value="custom-prop-val"/>
+    </custom-configuration>
+
+</subsystem>

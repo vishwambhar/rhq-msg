@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.rhq.msg</groupId>
+        <artifactId>rhq-msg-parent</artifactId>
+        <version>0.1</version>
+    </parent>
+
+    <groupId>org.rhq.msg</groupId>
+    <artifactId>rhq-msg-broker-wf-extension</artifactId>
+    <packaging>jar</packaging>
+    <version>0.1</version>
+    <name>RHQ Messaging Broker WildFly Extension</name>
+
+    <properties>
+        <wildfly.version>8.1.0.Final</wildfly.version>
+
+        <!-- this is used to replace the variable in module.xml -->
+        <moduleName>org.rhq.msg.broker</moduleName>
+        <moduleDir>org/rhq/msg/broker</moduleDir>
+    </properties>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <excludes>
+                    <!-- these don't need to be in the jar, just in our module .zip -->
+                    <exclude>module/main/module.xml</exclude>
+                    <exclude>module/main/config/default-broker.xml</exclude>
+                </excludes>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-deps</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.rhq.msg</groupId>
+                                    <artifactId>rhq-msg-broker</artifactId>
+                                    <version>${project.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.activemq</groupId>
+                                    <artifactId>activemq-all</artifactId>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.springframework</groupId>
+                                    <artifactId>spring</artifactId>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.activemq</groupId>
+                                    <artifactId>activemq-spring</artifactId>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.xbean</groupId>
+                                    <artifactId>xbean-spring</artifactId>
+                                </artifactItem>
+
+                            </artifactItems>
+                            <outputDirectory>${project.build.directory}/module-deps</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/main/scripts/module-assembly.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>module</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jboss.plugins</groupId>
+                <artifactId>wildfly-extension-maven-plugin</artifactId>
+                <configuration>
+                    <moduleZip>${project.build.directory}/${project.build.finalName}-module.zip</moduleZip>
+                    <jbossHome>${org.rhq.msg.broker.wildfly.home}</jbossHome>
+                    <modulesHome>modules/system/layers/base</modulesHome>
+                    <serverConfig>standalone/configuration/standalone.xml</serverConfig>
+                    <subsystem>${basedir}/src/main/scripts/standalone-subsystem.xml</subsystem>
+                    <profiles>
+                        <profile>default</profile>
+                    </profiles>
+                    <socketBinding>${basedir}/src/main/scripts/socket-binding.xml</socketBinding>
+                    <socketBindingGroups>
+                        <socketBindingGroup>standard-sockets</socketBindingGroup>
+                    </socketBindingGroups>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <pluginRepositories>
+        <!-- needed for the Wildfly Extension plugin -->
+        <pluginRepository>
+            <id>clojars</id>
+            <name>clojars</name>
+            <url>https://clojars.org/repo</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.rhq.msg</groupId>
+            <artifactId>rhq-msg-broker</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    
+        <dependency>
+            <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-controller</artifactId>
+            <version>${wildfly.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-server</artifactId>
+            <version>${wildfly.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- test deps -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-subsystem-test-framework</artifactId>
+            <version>${wildfly.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+</project>
