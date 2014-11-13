@@ -1,6 +1,7 @@
 package org.rhq.msg.common.consumer;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -33,9 +34,10 @@ public class FutureBasicMessageListener<T extends BasicMessage> extends BasicMes
         WAITING, DONE, CANCELLED
     }
 
-    private final BlockingQueue<T> response = new ArrayBlockingQueue<T>(1);
+    // use array blocking queue because it has the same concurrent semantics as Future making things easy for us
+    private final BlockingQueue<T> responseQ = new ArrayBlockingQueue<T>(1);
+    private T responseMessage = null;
     private State state = State.WAITING;
-    private InterruptedException ieException = null; // will be set if we were interrupted
 
     public FutureBasicMessageListener() {
         super();
@@ -55,8 +57,10 @@ public class FutureBasicMessageListener<T extends BasicMessage> extends BasicMes
         try {
             if (mayInterruptIfRunning) {
                 closeConsumer();
+                state = State.CANCELLED;
+            } else {
+                getLog().error("Told not to interrupt if running, but it is running. Cannot cancel.");
             }
-            state = State.CANCELLED;
         } catch (Exception e) {
             getLog().error("Failed to close consumer, cannot fully cancel");
         }
@@ -76,42 +80,51 @@ public class FutureBasicMessageListener<T extends BasicMessage> extends BasicMes
 
     @Override
     public T get() throws InterruptedException, ExecutionException {
-        if (ieException != null) {
-            throw ieException;
+        if (state == State.CANCELLED) {
+            throw new CancellationException();
         }
-        return response.take();
+
+        // Since we only ever expect a single response, only take the first item ever in the blocking Q.
+        // From there on out we never take from the blocking Q.
+        if (responseMessage == null) {
+            responseMessage = responseQ.take();
+        }
+        return responseMessage;
     }
 
     @Override
     public T get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
-        if (ieException != null) {
-            throw ieException;
+        if (state == State.CANCELLED) {
+            throw new CancellationException();
         }
 
-        final T responseMessage = response.poll(timeout, unit);
+        // Since we only ever expect a single response, only take the first item ever in the blocking Q.
+        // From there on out we never take from the blocking Q.
         if (responseMessage == null) {
-            throw new TimeoutException();
+            final T item = responseQ.poll(timeout, unit);
+            if (item == null) {
+                throw new TimeoutException();
+            }
+            responseMessage = item;
         }
+
         return responseMessage;
     }
 
     @Override
     protected void onBasicMessage(T basicMessage) {
         // if we already got a message or were cancelled, ignore any additional messages we might receive
-        if (isDone()) {
-            return;
-        }
-
-        try {
-            response.put(basicMessage);
-        } catch (InterruptedException e) {
-            ieException = e;
-        } finally {
-            state = State.DONE;
+        if (!isDone()) {
+            if (responseQ.offer(basicMessage)) {
+                state = State.DONE;
+            } else {
+                getLog().error("Failed to store incoming message for some reason. This future is now invalid.");
+                state = State.CANCELLED;
+            }
             try {
                 closeConsumer();
             } catch (Exception e) {
-                getLog().error("Failed to close consumer; any additional messages received will be ignored");
+                getLog().error("Failed to close consumer: {}", e);
             }
         }
     }
