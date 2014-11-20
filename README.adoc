@@ -1,0 +1,5 @@
+= rhq-msg
+
+Messaging infrastructure based on ActiveMQ
+
+See this http://management-platform.blogspot.de/2014/11/messaging-infrastructure-using-activemq.html[blog post] for more info
