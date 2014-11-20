@@ -1,4 +1,11 @@
 = rhq-msg
+:source-language: java
+
+ifdef::env-github[]
+[link=https://travis-ci.org/rhq-project/rhq-msg]
+image:https://travis-ci.org/rhq-project/rhq-msg.svg["Build Status", link="https://travis-ci.org/rhq-project/rhq-msg"]
+endif::[]
+
 
 Messaging infrastructure based on ActiveMQ
 
