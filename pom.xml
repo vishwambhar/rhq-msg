@@ -31,8 +31,8 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.rhq.next</groupId>
-                <artifactId>rhq-next-bom</artifactId>
+                <groupId>org.alohomora</groupId>
+                <artifactId>alohomora-bom</artifactId>
                 <version>1.0.0-SNAPSHOT</version>
                 <type>pom</type>
                 <scope>import</scope>
