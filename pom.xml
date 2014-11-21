@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.rhq.next</groupId>
-        <artifactId>rhq-next-parent</artifactId>
+        <groupId>org.alohomora</groupId>
+        <artifactId>alohomora-parent</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
