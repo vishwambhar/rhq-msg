@@ -1,0 +1,6 @@
+
+A sample client for rhq.msg that listens on port 17173 and queue 'metrics' for messages
+
+Run this via
+
+`mvn -Prun-sample-client install`

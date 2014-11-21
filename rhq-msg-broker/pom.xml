@@ -89,7 +89,7 @@
                             <systemProperties>
                                 <systemProperty>
                                     <key>test.bind.port</key>
-                                    <value>61616</value>
+                                    <value>17173</value>
                                 </systemProperty>
                                 <systemProperty>
                                     <key>log4j.configuration</key>

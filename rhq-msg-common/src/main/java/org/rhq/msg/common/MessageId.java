@@ -8,7 +8,7 @@ public class MessageId {
 
     public MessageId(String id) {
         if (id == null || id.length() == 0) {
-            throw new NullPointerException("ID cannot be null or empty");
+            throw new IllegalArgumentException("ID cannot be null or empty");
         }
         this.id = id;
     }
