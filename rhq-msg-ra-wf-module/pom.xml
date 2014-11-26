@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.rhq.msg</groupId>
+        <artifactId>rhq-msg-parent</artifactId>
+        <version>0.1</version>
+    </parent>
+
+    <groupId>org.rhq.msg</groupId>
+    <artifactId>rhq-msg-ra-wf-module</artifactId>
+    <packaging>pom</packaging>
+    <version>0.1</version>
+    <name>RHQ Messaging Resource Adapter WildFly Module</name>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/main/scripts/module-assembly.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>module</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-rar</artifactId>
+            <version>${version.org.apache.activemq}</version>
+            <type>rar</type>
+        </dependency>
+    </dependencies>
+
+</project>
