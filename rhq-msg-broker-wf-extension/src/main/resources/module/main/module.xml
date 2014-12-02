@@ -5,10 +5,10 @@
     <resources>
         <resource-root path="${project.build.finalName}.jar"/>
         <resource-root path="rhq-msg-broker-${project.version}.jar"/>
-        <resource-root path="activemq-all-${activemq-version}.jar"/>
-        <resource-root path="activemq-spring-${activemq-version}.jar"/>
-        <resource-root path="spring-${spring-version}.jar"/>
-        <resource-root path="xbean-spring-${apache-xbean-spring-version}.jar"/>
+        <resource-root path="activemq-all-${version.org.apache.activemq}.jar"/>
+        <resource-root path="activemq-spring-${version.org.apache.activemq}.jar"/>
+        <resource-root path="spring-${version.org.springframework}.jar"/>
+        <resource-root path="xbean-spring-${version.org.apache.xbean}.jar"/>
         <resource-root path="config"/>
     </resources>
 
