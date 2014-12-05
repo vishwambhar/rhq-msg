@@ -25,6 +25,7 @@
         <module>rhq-msg-broker</module>
         <module>rhq-msg-test-common</module>
         <module>rhq-msg-broker-wf-extension</module>
+        <module>rhq-msg-ra-wf-module</module>
         <module>rhq-msg-sample-client</module>
     </modules>
 

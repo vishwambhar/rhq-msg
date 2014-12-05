@@ -8,10 +8,8 @@
         <version>0.1</version>
     </parent>
 
-    <groupId>org.rhq.msg</groupId>
     <artifactId>rhq-msg-broker</artifactId>
     <packaging>jar</packaging>
-    <version>0.1</version>
     <name>RHQ Messaging Broker</name>
 
     <dependencies>

@@ -9,10 +9,8 @@
         <version>0.1</version>
     </parent>
 
-    <groupId>org.rhq.msg</groupId>
     <artifactId>rhq-msg-broker-wf-extension</artifactId>
     <packaging>jar</packaging>
-    <version>0.1</version>
     <name>RHQ Messaging Broker WildFly Extension</name>
 
     <properties>

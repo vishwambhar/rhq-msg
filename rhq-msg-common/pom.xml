@@ -8,10 +8,8 @@
         <version>0.1</version>
     </parent>
 
-    <groupId>org.rhq.msg</groupId>
     <artifactId>rhq-msg-common</artifactId>
     <packaging>jar</packaging>
-    <version>0.1</version>
     <name>RHQ Messaging Framework Common Library</name>
     <description>RHQ Messaging Framework Common Library for use with both consumer and producer code.</description>
 

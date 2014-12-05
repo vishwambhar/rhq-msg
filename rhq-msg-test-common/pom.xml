@@ -8,10 +8,8 @@
         <version>0.1</version>
     </parent>
 
-    <groupId>org.rhq.msg</groupId>
     <artifactId>rhq-msg-test-common</artifactId>
     <packaging>jar</packaging>
-    <version>0.1</version>
     <name>RHQ Messaging Framework Common Test Library</name>
     <description>RHQ Messaging Framework Common Test Library for use with testing consumers and producers</description>
 

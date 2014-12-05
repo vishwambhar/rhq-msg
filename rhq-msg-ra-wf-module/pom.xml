@@ -9,10 +9,8 @@
         <version>0.1</version>
     </parent>
 
-    <groupId>org.rhq.msg</groupId>
     <artifactId>rhq-msg-ra-wf-module</artifactId>
     <packaging>pom</packaging>
-    <version>0.1</version>
     <name>RHQ Messaging Resource Adapter WildFly Module</name>
 
     <build>
