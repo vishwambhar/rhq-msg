@@ -58,7 +58,7 @@
 
         <!-- other dependencies we need -->
         <!-- if we include these jars, we don't need these -->
-        <!-- 
+        <!--
         <module name="javax.jms.api"/>
         <module name="javax.management.j2ee.api"/>
         <module name="javax.transaction.api"/>
