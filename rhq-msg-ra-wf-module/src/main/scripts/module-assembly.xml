@@ -6,22 +6,16 @@
         <format>zip</format>
     </formats>
     <includeBaseDirectory>false</includeBaseDirectory>
-    <baseDirectory>${project.build.finalName}-module</baseDirectory>
+    <baseDirectory>${project.build.finalName}</baseDirectory>
     <fileSets>
         <!-- the files which only go in the zip, not in the jar -->
         <fileSet>
-            <directory>${basedir}/src/main/resources/module</directory>
+            <directory>${basedir}/src/main/module-resources</directory>
             <outputDirectory>/org/apache/activemq/ra</outputDirectory>
             <includes>
-                <include>main/module.xml</include>
+                <include>**</include>
             </includes>
             <filtered>true</filtered>
-            <fileMode>0644</fileMode>
-            <directoryMode>0755</directoryMode>
-        </fileSet>
-        <fileSet>
-            <directory>${project.build.directory}/module-deps</directory>
-            <outputDirectory>/org/apache/activemq/ra/main</outputDirectory>
             <fileMode>0644</fileMode>
             <directoryMode>0755</directoryMode>
         </fileSet>
@@ -29,6 +23,7 @@
     <dependencySets>
         <dependencySet>
             <outputDirectory>/org/apache/activemq/ra/main</outputDirectory>
+            <useProjectArtifact>false</useProjectArtifact>
             <unpack>true</unpack>
             <unpackOptions>
                 <includes>

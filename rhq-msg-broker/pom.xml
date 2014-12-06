@@ -14,13 +14,23 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-all</artifactId>
+            <groupId>gnu.getopt</groupId>
+            <artifactId>java-getopt</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring</artifactId>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-broker</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-kahadb-store</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-openwire-legacy</artifactId>
         </dependency>
 
         <dependency>
@@ -29,8 +39,20 @@
         </dependency>
 
         <dependency>
-            <groupId>gnu.getopt</groupId>
-            <artifactId>java-getopt</artifactId>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-web</artifactId>
+            <!-- we do not want to pull in the uber-jar -->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.activemq</groupId>
+                    <artifactId>activemq-all</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
         </dependency>
 
         <dependency>

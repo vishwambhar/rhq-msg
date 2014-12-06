@@ -19,6 +19,90 @@
         <moduleDir>org/rhq/msg/broker</moduleDir>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.rhq.msg</groupId>
+            <artifactId>rhq-msg-broker</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- These are provided by the Wildfly-Core container and will be imported as a dependency in module.xml -->
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!--
+             If we deploy in standard Wildfly, we can just import these modules for these geronimo api jars:
+                 javax.jms.api
+                 javax.management.j2ee.api
+                 javax.transaction.api
+        -->
+<!-- 
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-j2ee-management_1.1_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-jms_1.1_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-jta_1.0.1B_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+-->
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-controller</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-server</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Test Dependencies -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-subsystem-test-framework</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
     <build>
         <resources>
             <resource>
@@ -26,53 +110,12 @@
                 <filtering>true</filtering>
                 <excludes>
                     <!-- these don't need to be in the jar, just in our module .zip -->
-                    <exclude>module/main/module.xml</exclude>
-                    <exclude>module/main/config/default-broker.xml</exclude>
+                    <exclude>module/**</exclude>
                 </excludes>
             </resource>
         </resources>
 
         <plugins>
-            <plugin>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-deps</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.rhq.msg</groupId>
-                                    <artifactId>rhq-msg-broker</artifactId>
-                                    <version>${project.version}</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.apache.activemq</groupId>
-                                    <artifactId>activemq-all</artifactId>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.apache.activemq</groupId>
-                                    <artifactId>activemq-spring</artifactId>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.apache.xbean</groupId>
-                                    <artifactId>xbean-spring</artifactId>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.springframework</groupId>
-                                    <artifactId>spring</artifactId>
-                                </artifactItem>
-
-                            </artifactItems>
-                            <outputDirectory>${project.build.directory}/module-deps</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
@@ -82,7 +125,7 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <id>module</id>
+                        <id>module-assembly</id>
                         <phase>package</phase>
                         <goals>
                             <goal>single</goal>
@@ -91,6 +134,7 @@
                 </executions>
             </plugin>
 
+            <!-- USAGE: mvn -Dorg.rhq.msg.broker.wildfly.home=/opt/wildfly8 wildfly-extension:deploy -->
             <plugin>
                 <groupId>org.jboss.plugins</groupId>
                 <artifactId>wildfly-extension-maven-plugin</artifactId>
@@ -111,38 +155,5 @@
             </plugin>
         </plugins>
     </build>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.rhq.msg</groupId>
-            <artifactId>rhq-msg-broker</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-    
-        <dependency>
-            <groupId>org.wildfly</groupId>
-            <artifactId>wildfly-controller</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.wildfly</groupId>
-            <artifactId>wildfly-server</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- test deps -->
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <scope>test</scope>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.wildfly</groupId>
-            <artifactId>wildfly-subsystem-test-framework</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
 
 </project>

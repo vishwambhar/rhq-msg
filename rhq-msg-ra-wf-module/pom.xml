@@ -39,7 +39,6 @@
         <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-rar</artifactId>
-            <version>${version.org.apache.activemq}</version>
             <type>rar</type>
         </dependency>
     </dependencies>
