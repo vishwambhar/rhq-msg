@@ -26,13 +26,7 @@
             <version>${project.version}</version>
         </dependency>
 
-        <!-- These are provided by the Wildfly-Core container and will be imported as a dependency in module.xml -->
-        <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
+        <!-- These are provided by the Wildfly container and will be imported as a dependency in module.xml -->
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
@@ -40,12 +34,20 @@
         </dependency>
 
         <!--
-             If we deploy in standard Wildfly, we can just import these modules for these geronimo api jars:
+             If we deploy in standard Wildfly, we can just import these modules and define these as scope=provided.
                  javax.jms.api
                  javax.management.j2ee.api
                  javax.transaction.api
+                 org.apache.commons.logging
+             But if we are to support deploying in Wildfly-Core, we need to provide these libraries explicitly in our module.
         -->
 <!-- 
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.geronimo.specs</groupId>
             <artifactId>geronimo-j2ee-management_1.1_spec</artifactId>
