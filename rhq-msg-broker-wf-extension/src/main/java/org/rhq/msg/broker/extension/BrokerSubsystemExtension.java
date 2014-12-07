@@ -37,6 +37,8 @@ public class BrokerSubsystemExtension implements Extension {
     public static final String NAMESPACE = "urn:org.rhq.msg:broker:1.0";
     public static final String SUBSYSTEM_NAME = "rhq-msg-broker";
 
+    public static final String DEPLOYMENT_REST_WAR = "rest.war";
+
     private final SubsystemParser parser = new SubsystemParser();
 
     private static final String RESOURCE_NAME = BrokerSubsystemExtension.class.getPackage().getName() + ".LocalDescriptions";

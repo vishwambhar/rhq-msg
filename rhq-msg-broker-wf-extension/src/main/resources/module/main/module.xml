@@ -14,15 +14,8 @@
         <resource-root path="activemq-spring-${version.org.apache.activemq}.jar" />
         <resource-root path="activemq-web-${version.org.apache.activemq}.jar" />
         <resource-root path="aopalliance-1.0.jar" />
-        <resource-root path="commons-logging-1.1.3.jar" />
         <resource-root path="commons-net-3.3.jar" />
-        <resource-root path="commons-pool-1.6.jar" />
-        <resource-root path="geronimo-j2ee-management_1.1_spec-1.0.1.jar" />
-        <resource-root path="geronimo-jms_1.1_spec-1.1.1.jar" />
-        <resource-root path="geronimo-jta_1.0.1B_spec-1.0.1.jar" />
         <resource-root path="hawtbuf-1.10.jar" />
-        <resource-root path="java-getopt-${version.gnu.getopt}.jar" />
-        <resource-root path="jdom-1.0.jar" />
         <resource-root path="jetty-continuation-7.6.9.v20130131.jar" />
         <resource-root path="jetty-http-7.6.9.v20130131.jar" />
         <resource-root path="jetty-io-7.6.9.v20130131.jar" />
@@ -43,6 +36,7 @@
         <resource-root path="xpp3_min-1.1.4c.jar" />
         <resource-root path="xstream-1.4.7.jar" />
         <resource-root path="config"/>
+        <resource-root path="deployments"/>
     </resources>
 
     <dependencies>
@@ -57,18 +51,20 @@
         <module name="org.jboss.vfs"/>
 
         <!-- other dependencies we need -->
-        <!-- if we include these jars, we don't need these -->
-        <!--
+        <module name="gnu.getopt"/>
         <module name="javax.jms.api"/>
         <module name="javax.management.j2ee.api"/>
+        <module name="javax.servlet.api"/>
         <module name="javax.transaction.api"/>
         <module name="org.apache.commons.logging"/>
-        -->
+        <module name="org.apache.commons.pool"/>
         <module name="org.apache.log4j"/>
         <module name="org.jboss.logmanager" services="import"/>
         <module name="org.jboss.common-core"/>
         <module name="org.jboss.as.network"/>
         <module name="org.jboss.as.jmx"/>
+        <module name="org.jboss.as.web"/>
+        <module name="org.jdom"/>
         <module name="org.slf4j"/>
     </dependencies>
 </module>

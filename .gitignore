@@ -6,8 +6,9 @@
 
 # Package Files #
 *.jar
-*.war
 *.ear
+# do NOT ignore *.war - we have a directory that needs to have a .war extension
+#*.war
 
 # virtual machine crash logs
 hs_err_pid*

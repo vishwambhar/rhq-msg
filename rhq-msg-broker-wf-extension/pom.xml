@@ -26,25 +26,40 @@
             <version>${project.version}</version>
         </dependency>
 
-        <!-- These are provided by the Wildfly container and will be imported as a dependency in module.xml -->
+        <!-- These are provided by the Wildfly container via these module dependencies in module.xml
+                 gnu.getopt
+                 org.apache.log4j
+                 org.apache.commons.logging
+                 org.apache.commons.pool
+                 javax.management.j2ee.api
+                 javax.jms.api
+                 javax.transaction.api
+                 org.slf4j
+                 org.jboss.as.controller
+                 org.jboss.as.server
+                 org.jdom
+        -->
+        <dependency>
+            <groupId>gnu.getopt</groupId>
+            <artifactId>java-getopt</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!--
-             If we deploy in standard Wildfly, we can just import these modules and define these as scope=provided.
-                 javax.jms.api
-                 javax.management.j2ee.api
-                 javax.transaction.api
-                 org.apache.commons.logging
-             But if we are to support deploying in Wildfly-Core, we need to provide these libraries explicitly in our module.
-        -->
-<!-- 
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-pool</groupId>
+            <artifactId>commons-pool</artifactId>
             <scope>provided</scope>
         </dependency>
 
@@ -65,7 +80,12 @@
             <artifactId>geronimo-jta_1.0.1B_spec</artifactId>
             <scope>provided</scope>
         </dependency>
--->
+
+        <dependency>
+            <groupId>jdom</groupId>
+            <artifactId>jdom</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
         <dependency>
             <groupId>org.slf4j</groupId>
