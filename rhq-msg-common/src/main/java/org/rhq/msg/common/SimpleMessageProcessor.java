@@ -1,5 +1,6 @@
 package org.rhq.msg.common;
 
+import java.util.Map;
 import java.util.concurrent.Future;
 
 import javax.jms.JMSException;
@@ -12,9 +13,10 @@ import org.rhq.msg.common.consumer.RPCConnectionContext;
 import org.rhq.msg.common.producer.ProducerConnectionContext;
 
 /**
- * A version of the MessageProcessor that keeps he passed interfaces internally
+ * A version of the MessageProcessor that keeps the passed interfaces internally available
  * @author Heiko W. Rupp
  */
+@SuppressWarnings("unused")
 public class SimpleMessageProcessor extends MessageProcessor {
 
     private ConsumerConnectionContext consumerCtx;
@@ -31,8 +33,13 @@ public class SimpleMessageProcessor extends MessageProcessor {
     }
 
     public MessageId send(BasicMessage basicMessage) throws JMSException {
-        return super.send(producerCtx, basicMessage);
+        return super.send(producerCtx, basicMessage, null);
     }
+
+    public MessageId send(BasicMessage basicMessage, Map<String,String> headers) throws JMSException {
+        return super.send(producerCtx, basicMessage,headers);
+    }
+
 
     public <T extends BasicMessage> RPCConnectionContext sendAndListen(
                                                                        BasicMessage basicMessage,
@@ -40,10 +47,24 @@ public class SimpleMessageProcessor extends MessageProcessor {
         return super.sendAndListen(producerCtx, basicMessage, responseListener);
     }
 
+    public <T extends BasicMessage> RPCConnectionContext sendAndListen(
+                                                                       BasicMessage basicMessage,
+                                                                       BasicMessageListener<T> responseListener,
+                                                                       Map<String,String> headers) throws JMSException {
+        return super.sendAndListen(producerCtx, basicMessage, responseListener,headers);
+    }
+
     public <R extends BasicMessage> Future<R> sendRPC(BasicMessage basicMessage,
                                                       Class<R> expectedResponseMessageClass) throws JMSException {
         return super.sendRPC(producerCtx, basicMessage,
             expectedResponseMessageClass);
+    }
+
+    public <R extends BasicMessage> Future<R> sendRPC(BasicMessage basicMessage,
+                                                      Class<R> expectedResponseMessageClass,
+                                                      Map<String,String> headers) throws JMSException {
+        return super.sendRPC(producerCtx, basicMessage,
+            expectedResponseMessageClass, headers);
     }
 
     protected Message createMessage(ConnectionContext context, BasicMessage basicMessage) throws JMSException {
